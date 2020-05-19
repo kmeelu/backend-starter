@@ -17,7 +17,7 @@ handler.get(async (req, res) => {
   } else {
     doc = await req.db
       .collection("temperature")
-      .findOne({}, { sort: [["created_at", "desc"]] });
+      .findOne({}, { sort: [["date", "desc"]] });
   }
   if (doc == null) {
     const dataModel = {

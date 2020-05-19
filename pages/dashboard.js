@@ -16,7 +16,7 @@ const Dashboard = ({ data }) => {
     });
 
     console.log(res);
-  }, []);
+  }, [temperature]);
 
   return (
     <div className="container">
@@ -30,7 +30,7 @@ const Dashboard = ({ data }) => {
           <PageHeader
             ghost={false}
             title="Dashboard"
-            subTitle="Track your Steps Walked"
+            subTitle="Track your Temperature"
             extra={[
               <Button key="1" href="/api/logout">
                 Logout
