@@ -1,5 +1,5 @@
 import nextConnect from "next-connect";
-import middleware from "../../utils/database";
+import middleware from "utils/database";
 import { ObjectID } from "mongodb";
 
 const handler = nextConnect();
@@ -15,7 +15,9 @@ handler.get(async (req, res) => {
       .collection("temperature")
       .findOne({ date: new Date(date) });
   } else {
-    doc = await req.db.collection("temperature").findOne();
+    doc = await req.db
+      .collection("temperature")
+      .findOne({}, { sort: [["created_at", "desc"]] });
   }
   if (doc == null) {
     const dataModel = {

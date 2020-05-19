@@ -18,7 +18,7 @@ const Home = () => (
 
       <ul>
         <li>Auth0 for user management</li>
-        <li>MongoDB for data management.</li>
+        <li>MongoDB for data management</li>
       </ul>
 
       <Button href="/api/login" type="primary" block>

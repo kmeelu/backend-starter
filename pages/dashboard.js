@@ -1,21 +1,13 @@
 import React, { useCallback, useState } from "react";
 import Head from "next/head";
 import fetch from "isomorphic-unfetch";
-import {
-  PageHeader,
-  Button,
-  Table,
-  Statistic,
-  Row,
-  Col,
-  InputNumber,
-} from "antd";
+import { PageHeader, Button, Statistic, Row, Col, InputNumber } from "antd";
 
-const Dashboard = ({ data, covidData }) => {
+const Dashboard = ({ data }) => {
   const [temperature, setTemperature] = useState(0);
 
   const updateTemperature = useCallback(async () => {
-    const res = await fetch("http://localhost:3000/api/temperature", {
+    const res = await fetch(`/api/temperature`, {
       method: "post",
       body: JSON.stringify({
         date: Date.now(),
@@ -38,7 +30,7 @@ const Dashboard = ({ data, covidData }) => {
           <PageHeader
             ghost={false}
             title="Dashboard"
-            subTitle="Track your Temperature"
+            subTitle="Track your Steps Walked"
             extra={[
               <Button key="1" href="/api/logout">
                 Logout
@@ -48,17 +40,11 @@ const Dashboard = ({ data, covidData }) => {
             <Row gutter={16}>
               <Col span={12}>
                 <Statistic
-                  title="Latest Temperature"
-                  value={112893}
+                  title="Latest Entry"
+                  value={data.temperature}
                   precision={1}
                 />
-              </Col>
-              <Col span={12}>
-                <Statistic
-                  title="Average Temperature"
-                  value={112893}
-                  precision={1}
-                />
+                <span>Last updated: {data.date}</span>
               </Col>
             </Row>
           </PageHeader>
@@ -68,7 +54,7 @@ const Dashboard = ({ data, covidData }) => {
             <InputNumber
               min={0}
               max={200}
-              step={0.1}
+              step={1}
               value={temperature}
               onChange={setTemperature}
               style={{ marginRight: "16px" }}
@@ -107,26 +93,10 @@ const Dashboard = ({ data, covidData }) => {
 };
 
 Dashboard.getInitialProps = async () => {
-  const { user } = await auth0.getSession(req);
-  if (!user) {
-    res.writeHead(302, {
-      Location: "/api/login",
-    });
-    res.end();
-    return;
-  }
-
-  const res = await fetch("http://localhost:3000/api/temperature");
-  console.log(res);
+  const res = await fetch(`${process.env.DOMAIN}api/temperature`);
   const json = await res.json();
 
-  const covidRes = await fetch(
-    "https://covidtracking.com/api/v1/states/current.json"
-  );
-  console.log(covidRes);
-  const covidJson = await covidRes.json();
-
-  return { data: json, covidData: covidJson };
+  return { data: json };
 };
 
 export default Dashboard;
