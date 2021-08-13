@@ -13,7 +13,7 @@
     "antd": "^4.2.4",
     "isomorphic-unfetch": "^3.0.0",
     "mongodb": "^3.5.7",
-    "next": "9.3.4",
+    "next": "11.1.0",
     "next-connect": "^0.6.6",
     "next-fonts": "^1.0.3",
     "node-sass": "^4.13.1",
